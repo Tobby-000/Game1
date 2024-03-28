@@ -94,6 +94,8 @@ public:
     bool move() {
         if (x < -1) {
             return 1;
+            y = y0;
+            x = x0;
         }
         else {
             x--;
@@ -176,7 +178,7 @@ int main()
     int shootdelay = 0;
     while (true)
     {
-        Sleep(10);
+        Sleep(1);
         if (GetAsyncKeyState(VK_LEFT) & 0X8000)
         {
             c->left();
@@ -233,7 +235,7 @@ int main()
                 else if (am) {
                     cout << "▲";
                 }
-                else if (en||enam) {
+                else if (en) {
                     cout << "▼";
                 }
                 else
@@ -279,6 +281,8 @@ int main()
             if (tick % 5 == 0) {
                 if (ene[k].move()) {
                     ene.erase(ene.begin());
+                    //if(ene[k].live)
+                    //life--;
                 }
             }
             if (delay == 0) {
