@@ -65,6 +65,12 @@ public:
             Flash--;
         return;
     }
+    bool getflash() {
+        if (Flash != 0)
+            return 0;
+        else
+            return 1;
+    }
 };
 class ammo {
 private:
@@ -204,6 +210,16 @@ int main()
                 }
             }
         }
+
+        for (int n = 0; n < enesh.size(); n++) {
+            if (c->getflash()&&enesh[n].isshoot && c->print(enesh[n].getx(), enesh[n].gety())) {
+                enesh[n].shoot();
+                score += 1000;
+                life--;
+                c->flash();
+            }
+        }
+          
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
         for (int i = 0; i < 25; i++)
         {
@@ -235,7 +251,7 @@ int main()
                 else if (am) {
                     cout << "▲";
                 }
-                else if (en) {
+                else if (en||enam) {
                     cout << "▼";
                 }
                 else
@@ -281,18 +297,15 @@ int main()
             if (tick % 5 == 0) {
                 if (ene[k].move()) {
                     ene.erase(ene.begin());
-                    //if(ene[k].live)
-                    //life--;
                 }
             }
-            if (delay == 0) {
-                if (ene[k].live && ene[k].print(c->gety(), c->getx())) {
+                if (c->getflash()&&ene[k].live && ene[k].print(c->gety(), c->getx())) {
                     life--;
-                    delay = 40;
+
                     ene[k].kill();
                     c->flash();
                 }
-            }
+            
             else
                 delay--;
         }
