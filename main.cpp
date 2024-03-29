@@ -186,21 +186,13 @@ int main()
 	{
 		Sleep(10);
 		if (GetAsyncKeyState(VK_LEFT) & 0X8000)
-		{
 			c->left();
-		}
 		else if (GetAsyncKeyState(VK_RIGHT) & 0X8000)
-		{
 			c->right();
-		}
 		else if (GetAsyncKeyState(VK_UP) & 0X8000)
-		{
 			c->up();
-		}
 		else if (GetAsyncKeyState(VK_DOWN) & 0X8000)
-		{
 			c->down();
-		}
 		for (int m = 0; m < ene.size(); m++) {
 			for (int n = 0; n < shoot.size(); n++) {
 				if (ene[m].live && shoot[n].isshoot && ene[m].print(shoot[n].getx(), shoot[n].gety())) {
@@ -210,7 +202,6 @@ int main()
 				}
 			}
 		}
-
 		for (int n = 0; n < enesh.size(); n++) {
 			if (c->getflash())
 				if(enesh[n].isshoot && (c->print(enesh[n].getx(), enesh[n].gety()))|| c->print(enesh[n].getx()-1, enesh[n].gety())|| c->print(enesh[n].getx()+1, enesh[n].gety())|| c->print(enesh[n].getx(), enesh[n].gety()-1)) {
@@ -219,8 +210,7 @@ int main()
 				life--;
 				c->flash();
 			}
-		}
-		                      
+		}                
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
 		for (int i = 0; i < 25; i++)
 		{
@@ -246,15 +236,12 @@ int main()
 				}
 				if (i == 0 || i == 24 || j == 0 || j == 29)
 					cout << "□";
-				else if (c->print(i, j)) {
+				else if (c->print(i, j)) 
 					cout << c->s;
-				}
-				else if (am) {
+				else if (am) 
 					cout << "▲";
-				}
-				else if (en || enam) {
+				else if (en || enam)
 					cout << "▼";
-				}
 				else
 					cout << " ";
 			}
@@ -293,9 +280,8 @@ int main()
 				}
 			}
 		}
-		if (tick == 300000) {
+		if (tick == 300000) 
 			tick = 0;
-		}
 		for (int k = 0; k < shoot.size(); k++) {
 			if (shoot[k].move()) {
 				shoot.erase(shoot.begin());
@@ -308,9 +294,8 @@ int main()
 		}
 		for (int k = 0; k < ene.size(); k++) {
 			if (tick % 5 == 0) {
-				if (ene[k].move()) {
+				if (ene[k].move())
 					ene.erase(ene.begin());
-				}
 			}
 			if (c->getflash() && ene[k].live && ene[k].print(c->gety(), c->getx())) {
 				life--;
@@ -320,7 +305,6 @@ int main()
 			else
 				delay--;
 		}
-
 		if (life == 0)
 			break;
 		else
@@ -331,7 +315,8 @@ int main()
 	cout << "Your Score is :  " << score << endl;
 	cout << "Type any key to end this game" << endl;
 	while (1) {
-		if (_kbhit())
+		char x;
+		if(cin >> x)
 			break;
 	}
 }
