@@ -212,14 +212,15 @@ int main()
 		}
 
 		for (int n = 0; n < enesh.size(); n++) {
-			if (c->getflash() && enesh[n].isshoot && c->print(enesh[n].getx(), enesh[n].gety())) {
+			if (c->getflash())
+				if(enesh[n].isshoot && (c->print(enesh[n].getx(), enesh[n].gety()))|| c->print(enesh[n].getx()-1, enesh[n].gety())|| c->print(enesh[n].getx()+1, enesh[n].gety())|| c->print(enesh[n].getx(), enesh[n].gety()-1)) {
 				enesh[n].shoot();
 				score += 1000;
 				life--;
 				c->flash();
 			}
 		}
-
+		                      
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
 		for (int i = 0; i < 25; i++)
 		{
