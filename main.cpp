@@ -204,7 +204,7 @@ int main()
 		}
 		for (int n = 0; n < enesh.size(); n++) {
 			if (c->getflash())
-				if(enesh[n].isshoot && (c->print(enesh[n].getx(), enesh[n].gety()))|| c->print(enesh[n].getx()-1, enesh[n].gety())|| c->print(enesh[n].getx()+1, enesh[n].gety())|| c->print(enesh[n].getx(), enesh[n].gety()-1)) {
+				if(enesh[n].isshoot && c->print(enesh[n].getx(), enesh[n].gety())) {
 				enesh[n].shoot();
 				score += 1000;
 				life--;
@@ -297,7 +297,7 @@ int main()
 				if (ene[k].move())
 					ene.erase(ene.begin());
 			}
-			if (c->getflash() && ene[k].live && ene[k].print(c->gety(), c->getx())) {
+			if (c->getflash() && ene[k].live && (ene[k].print(c->gety(), c->getx())|| ene[k].print(c->gety()-1, c->getx()) || ene[k].print(c->gety(), c->getx()+1) || ene[k].print(c->gety(), c->getx()-1))) {
 				life--;
 				ene[k].kill();
 				c->flash();
