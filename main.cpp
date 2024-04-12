@@ -11,6 +11,7 @@ using namespace std;
 
 const int SCREEN_WIDTH = 30;
 const int SCREEN_HEIGHT = 25;
+const int DELAY_TIME = 10;
 const int PLAYER_LIFE_DEFAULT = 5;
 const int BULLET_SPEED = 1;
 const int ENEMY_BULLET_SPEED = 1;
@@ -34,6 +35,7 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybulle
 
 int main()
 {
+
 	srand(static_cast<unsigned int>(time(nullptr)));
 	Player* player = new Player(SCREEN_HEIGHT, SCREEN_WIDTH, FLASH_DURATION);
 	vector<Bullet> bullets;
@@ -45,7 +47,7 @@ int main()
 
 	while (true)
 	{
-		Sleep(10);
+		Sleep(DELAY_TIME);
 		if (GetAsyncKeyState(VK_LEFT) & 0X8000)
 			player->left();
 		else if (GetAsyncKeyState(VK_RIGHT) & 0X8000)
