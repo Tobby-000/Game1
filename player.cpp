@@ -3,11 +3,12 @@
 
 #include"player.h"
 
-Player::Player(int maxY, int maxX) {
+Player::Player(int maxY, int maxX, int flashtime) {
 	this->x = maxX/2;
 	this->y = maxY-2;
 	this->maxX = maxX;
 	this->maxY = maxY;
+	this->flashtime = flashtime;
 }
 bool Player::print(int y1, int x1) {
 	if (flash_timer % 2 == 0) {
@@ -46,7 +47,7 @@ void Player::down() {
 	return;
 }
 void Player::Flash() {
-	flash_timer = 40;
+	flash_timer = flashtime;
 	return;
 }
 void Player::flashing() {

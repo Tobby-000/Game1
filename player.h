@@ -8,9 +8,10 @@ private:
 	int maxX;
 	int maxY;
 	int flash_timer= 0;
+	int flashtime;
 public:
 	const string s = "¡ö";
-	Player(int maxY, int maxX);
+	Player(int maxY, int maxX,int flashtime);
 	bool print(int y1, int x1);
 	void left();
 	void right();

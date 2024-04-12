@@ -8,18 +8,22 @@
 #include"Enemy.h"
 
 using namespace std;
+
 const int SCREEN_WIDTH = 30;
 const int SCREEN_HEIGHT = 25;
 const int PLAYER_LIFE_DEFAULT = 5;
 const int BULLET_SPEED = 1;
-const int ENEMY_SPEED = 1;
+const int ENEMY_BULLET_SPEED = 1;
+const int ENEMY_SPEED = 5;
+const int BULLET_SHOOT_SPEED = 5;
+const int ENEMY_BULLET_SHOOT_SPEED = 20;
 const int FLASH_DURATION = 40;
 const int BULLET_LIFESPAN = 100;
 const int ENEMY_SPAWN_INTERVAL = 40;
 const int SCORE_PER_ENEMY = 1000;
 const int GAME_TICK_LIMIT = 300000;
 
-int life = 5;
+int life = PLAYER_LIFE_DEFAULT;
 int score = 0;
 int tick = 0;
 int shootdelay = 0;
@@ -31,7 +35,7 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybulle
 int main()
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
-	Player* player = new Player(SCREEN_HEIGHT, SCREEN_WIDTH);
+	Player* player = new Player(SCREEN_HEIGHT, SCREEN_WIDTH, FLASH_DURATION);
 	vector<Bullet> bullets;
 	vector<Enemy> enemies;
 	vector<Bullet> enemyBullets;
@@ -111,6 +115,8 @@ void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& Enemybull
 }
 
 void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBullets, vector<Enemy>& enemies) {
+	if (tick == GAME_TICK_LIMIT)
+		tick = 0;
 	for (int m = 0; m < enemies.size(); m++) {
 		for (int n = 0; n < bullets.size(); n++) {
 			if (enemies[m].live && bullets[n].isshoot && enemies[m].print(bullets[n].getx(), bullets[n].gety())) {
@@ -124,7 +130,7 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 		if (player->getflash())
 			if (enemyBullets[n].isshoot && player->print(enemyBullets[n].getx(), enemyBullets[n].gety())) {
 				enemyBullets[n].shoot();
-				score += 1000;
+				score += SCORE_PER_ENEMY;
 				life--;
 				player->Flash();
 			}
@@ -134,14 +140,14 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 	if (shootdelay == 0 && GetAsyncKeyState(VK_SPACE) & 0X8000) {
 		Bullet temp(player->gety(), player->getx());
 		bullets.push_back(temp);
-		shootdelay = 10;
+		shootdelay = BULLET_SHOOT_SPEED;
 	}
 	else if (shootdelay != 0)
 		shootdelay--;
-	if (tick % 40 == 0) {
+	if (tick % ENEMY_SPAWN_INTERVAL == 0) {
 		for (;;) {
 			bool gen = 1;
-			Enemy tem(27);
+			Enemy tem(SCREEN_WIDTH-3);
 			for (int i = 0; i < enemies.size(); i++) {
 				if (tem.getx() >= enemies[i].getx() - 1 && tem.getx() <= enemies[i].getx() + 1)
 					gen = 0;
@@ -152,7 +158,7 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 			}
 		}
 	}
-	if (tick % 10 == 0) {
+	if (tick % ENEMY_BULLET_SHOOT_SPEED == 0) {
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies[i].live) {
 				Bullet temp(enemies[i].gety(), enemies[i].getx());
@@ -160,11 +166,11 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 			}
 		}
 	}
-	if (tick == 300000)
-		tick = 0;
-	for (int k = 0; k < bullets.size(); k++) {
-		if (bullets[k].move()) {
-			bullets.erase(bullets.begin());
+	if (tick % BULLET_SPEED == 0) {
+		for (int k = 0; k < bullets.size(); k++) {
+			if (bullets[k].move()) {
+				bullets.erase(bullets.begin());
+			}
 		}
 	}
 	for (int k = 0; k < enemyBullets.size(); k++) {
@@ -173,7 +179,7 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 		}
 	}
 	for (int k = 0; k < enemies.size(); k++) {
-		if (tick % 5 == 0) {
+		if (tick % ENEMY_SPEED == 0) {
 			if (enemies[k].move())
 				enemies.erase(enemies.begin());
 		}
