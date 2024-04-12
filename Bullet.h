@@ -1,3 +1,4 @@
+//×Óµ¯Àà
 #pragma once
 using namespace std;
 class Bullet {

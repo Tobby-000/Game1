@@ -1,4 +1,5 @@
-﻿#include<iostream>
+﻿//引用
+#include<iostream>
 #include<Windows.h>
 #include<vector>
 #include<conio.h>
@@ -8,7 +9,7 @@
 #include"Enemy.h"
 
 using namespace std;
-
+//常数
 const int SCREEN_WIDTH = 30;
 const int SCREEN_HEIGHT = 25;
 const int DELAY_TIME = 10;
@@ -23,16 +24,16 @@ const int BULLET_LIFESPAN = 100;
 const int ENEMY_SPAWN_INTERVAL = 40;
 const int SCORE_PER_ENEMY = 1000;
 const int GAME_TICK_LIMIT = 300000;
-
+//全局变量
 int life = PLAYER_LIFE_DEFAULT;
 int score = 0;
 int tick = 0;
 int shootdelay = 0;
 int delay = 0;
-
+//函数声明
 void gameRender(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybullets, vector<Enemy>& enemies);
 void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybullets, vector<Enemy>& enemies);
-
+//主函数定义
 int main()
 {
 
@@ -75,7 +76,7 @@ int main()
 			break;
 	}
 }
-
+//渲染函数
 void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& Enemybullets,vector<Enemy>& enemies) {
 	for (int i = 0; i < 25; i++)
 	{
@@ -115,7 +116,7 @@ void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& Enemybull
 	cout << "Score: " << score << "          Life:  " << life << endl;
 	cout << "Programmed by Tobby_000";
 }
-
+//更新函数
 void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBullets, vector<Enemy>& enemies) {
 	if (tick == GAME_TICK_LIMIT)
 		tick = 0;

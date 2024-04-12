@@ -1,3 +1,4 @@
+//µ–»À¿‡
 #pragma once
 #include <cstdlib>
 using namespace std;
