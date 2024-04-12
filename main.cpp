@@ -79,31 +79,31 @@ void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& Enemybull
 	{
 		for (int j = 0; j < 30; j++)
 		{
-			bool am = 0;
-			bool en = 0;
-			bool enam = 0;
+			bool isBullet = 0;
+			bool isEnemy= 0;
+			bool isEnemyBullet = 0;
 			for (int k = 0; k < bullets.size(); k++) {
-				am = bullets[k].print(i, j);
-				if (am)
+				isBullet = bullets[k].print(i, j);
+				if (isBullet)
 					break;
 			}
 			for (int k = 0; k < enemies.size(); k++) {
-				en = enemies[k].print(i, j);
-				if (en)
+				isEnemy = enemies[k].print(i, j);
+				if (isEnemy)
 					break;
 			}
 			for (int k = 0; k < Enemybullets.size(); k++) {
-				enam = Enemybullets[k].print(i, j);
-				if (enam)
+				isEnemyBullet = Enemybullets[k].print(i, j);
+				if (isEnemyBullet)
 					break;
 			}
 			if (i == 0 || i == 24 || j == 0 || j == 29)
 				cout << "□";
 			else if (player->print(i, j))
 				cout << player->s;
-			else if (am)
+			else if (isBullet)
 				cout << "▲";
-			else if (en || enam)
+			else if (isEnemy || isEnemyBullet)
 				cout << "▼";
 			else
 				cout << " ";
