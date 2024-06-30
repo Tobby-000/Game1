@@ -9,7 +9,7 @@
 #include"Enemy.h"
 
 using namespace std;
-//常数(简单模式数值)
+//常数
 const int SCREEN_WIDTH = 40;
 const int SCREEN_HEIGHT = 25;
 const int DELAY_TIME = 5;
@@ -36,6 +36,7 @@ bool start = 0;
 inline void gameRender(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybullets, vector<Enemy>& enemies);
 void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& Enemybullets, vector<Enemy>& enemies);
 void menuRender() ;
+void gameoverRender();
 void restart() {
 	life = PLAYER_LIFE_DEFAULT;
 	score = 0;
@@ -57,7 +58,6 @@ int main()
 		int begin = 0;
 		int first = 0;
 		int sum = 0;
-
 		while (true)
 		{
 			if (start == 0) {
@@ -129,24 +129,46 @@ int main()
 			}
 		}
 		system("cls");
-		cout << "Game Over" << endl;
-		cout << "Your Score is :  " << score << endl;
-		Sleep(3000);
-		cout << "Type ENTER to Restart this game" << endl;
-
+		gameoverRender();
 		while (1) {
 			if (GetAsyncKeyState(VK_RETURN) & 0X8000) {
 				restart();
 				break;
 			}
 		}
+		Sleep(1000);
 	}
 }
 //菜单渲染函数
 void menuRender() {
+	string s1 = "1.简单模式";
+	string s2 = "2.困难模式";
+	string s3 = "3.自定义";
 		for (int i = 0; i < SCREEN_HEIGHT; i++) {
 			for (int j = 0; j < SCREEN_WIDTH+30; j++) {
 				if (i == SCREEN_HEIGHT / 4 && j == 4) {
+					if (modeselect != 0)
+						cout << "  " << s1 << "   ";
+					else
+						cout << "> " << s1 << "  <";
+					j += s1.length() + 4;
+				}
+				else if (i == SCREEN_HEIGHT / 2 && j == 4) {
+					if (modeselect != 1)
+						cout << "  " << s2 << "   ";
+					else
+						cout << "> " << s2 << "  <";
+					j += s2.length() + 4;
+				}
+				else if (i == SCREEN_HEIGHT / 4 * 3 && j == 4) {
+					if (modeselect != 2)
+						cout << "  " << s3 << "   ";
+					else
+						cout << "> " << s3 << "  <";
+					j += s3.length() + 4;
+				}
+/*			优化前代码	
+			if (i == SCREEN_HEIGHT / 4 && j == 4) {
 					if (modeselect != 0) {
 						cout << "  1.简单模式";
 						for (int k = 0; k < SCREEN_WIDTH - 17; k++)
@@ -196,7 +218,7 @@ void menuRender() {
 						cout << " ";
 					cout << "□";
 					break;
-				}
+				}*/
 				else if (i == 0 || i == SCREEN_HEIGHT - 1 || j == 0 || j == SCREEN_WIDTH - 1||j==SCREEN_WIDTH+29)
 					cout << "□";
 				else
@@ -204,11 +226,11 @@ void menuRender() {
 			}
 			cout << endl;
 		}
+		cout << "Programmed by Tobby_000";
 }
 
 //游戏渲染函数
 inline void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& Enemybullets,vector<Enemy>& enemies) {
-	int render = 0;
 	for (int i = 0; i < SCREEN_HEIGHT; i++)
 	{
 		for (int j = 0; j < SCREEN_WIDTH+30; j++)
@@ -231,18 +253,20 @@ inline void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& En
 				if (isEnemyBullet)
 					break;
 			}
-			if (render != 0) {
-				render--;
-				continue;
-			}
 			if (i == 0 || i == SCREEN_HEIGHT-1 || j == 0 || j == SCREEN_WIDTH-1||j==SCREEN_WIDTH+29)
 				cout << "□";
 			else if (i == SCREEN_HEIGHT / 4 && j == SCREEN_WIDTH + 6) {
-				render = 9 + log10(life);
+				if(life!=0)
+					j += 9 + log10(life);
+				else
+					j += 9;
 				cout << "LIFE  :  "<<life;
 			}
 			else if (i == SCREEN_HEIGHT / 4 * 2&& j == SCREEN_WIDTH + 6) {
-				render = 9 + log10(score);
+				if (score != 0)
+					j += 9 + log10(score);
+				else
+					j += 9;
 				cout << "SCORE :  " << score;
 			}
 			else if (i == SCREEN_HEIGHT / 4 * 3 && j == SCREEN_WIDTH + 6) {
@@ -255,7 +279,7 @@ inline void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& En
 					cout << "  Custom  ";
 				else
 					cout << "  114514  ";
-				render = 16;
+				j += 16;
 			}
 			else if (player->print(i, j))
 				cout << player->s;
@@ -265,7 +289,7 @@ inline void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& En
 				cout << "▼";
 			else if(isEnemyBullet)
 				cout << "┋";
-			else
+			else if(i<=SCREEN_HEIGHT&&j<=SCREEN_WIDTH+30)
 				cout << " ";
 		}
 		cout << endl;
@@ -281,16 +305,8 @@ inline void gameRender(Player* player,vector<Bullet>& bullets,vector<Bullet>& En
 	}
 	cout << endl;
 	*/
-	cout << "Score: " << score << endl<<"Life:  " << life << endl;
-	cout << "Programmed by Tobby_000"<<endl<<"MODE:";
-	if(modeselect==0)
-		cout << "  EZ(easy)";
-	else if(modeselect==1)
-		cout << "  Hard    ";
-	else if(modeselect==2)
-		cout << "  Custom  ";
-	else
-		cout<<  "  114514  ";
+	cout << "Programmed by Tobby_000";
+
 }
 //更新函数
 void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBullets, vector<Enemy>& enemies) {
@@ -371,5 +387,47 @@ void Updater(Player* player, vector<Bullet>& bullets, vector<Bullet>& enemyBulle
 		}
 		else
 			delay--;
+	}
+}
+//游戏结束后界面渲染
+void gameoverRender() {
+	string si="Game Over";
+	for (int print = 1; print <=si.length(); print++) {
+		Sleep(200);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 });
+		for (int i = 0; i < SCREEN_HEIGHT; i++) {
+			for (int j = 0; j < SCREEN_WIDTH + 30; j++) {
+				if (i == SCREEN_HEIGHT / 4 && j == 12) {
+					int k = 0;
+					for (; k < print; k++) {
+						cout<< si[k];
+					}
+					j += k-1;
+					if(k==si.length())
+						Sleep(1000);
+				}
+				else if (i == SCREEN_HEIGHT / 2 && j == 6&& print >= si.length()) {
+					cout << "Your Score is :  " << score;
+					if (score != 0)
+						j += 17 + log10(score);
+					else
+						j += 18;
+				}
+				else if (i == SCREEN_HEIGHT / 4 * 3 && j == 8 && print >= si.length()) {
+					cout << "  Type ENTER to";
+					j += 14;
+				}
+				else if (i == SCREEN_HEIGHT / 4 * 3 + 1 && j == 8 && print >= si.length()) {
+					cout << "Restart this game";
+					j += 16;
+				}
+				else if (i == 0 || i == SCREEN_HEIGHT - 1 || j == 0 || j == SCREEN_WIDTH - 1 || j == SCREEN_WIDTH + 29)
+					cout << "□";
+				else
+					cout << " ";
+			}
+			cout << endl;
+		}
+		cout << "Programmed by Tobby_000";
 	}
 }
