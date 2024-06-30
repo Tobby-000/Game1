@@ -24,7 +24,7 @@
 实体类声明部分：
 
 玩家类：
-``cpp
+```cpp
 class Player {
 private:
 	int x;
@@ -47,10 +47,10 @@ public:
 	void flashing();
 	bool getflash();
 };
-``
+```
 
 敌人类：
-``cpp
+```cpp
 class Enemy {
 private:
 	int x;
@@ -64,9 +64,9 @@ public:
 	bool move();
 	void kill();
 };
-``
+```
 子弹类：
-``cpp
+```cpp
 class Bullet {
 private:
 	int y;
@@ -85,7 +85,7 @@ public:
 	int gety();
 	void shoot();
 };
-``
+```
 
 更新函数： 
 负责程序内所有对象间的交互和对象的更新（移动等）。依次为敌人被子弹击中，玩家被子弹击中，玩家闪烁，玩家射击，子弹射击（生成）与移动和销毁，敌人生成以及与玩家间的交互以及最后的销毁。玩家移动部分在主函数内，因为要读取键盘输入。
